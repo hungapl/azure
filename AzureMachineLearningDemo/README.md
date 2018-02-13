@@ -36,23 +36,25 @@ https://docs.microsoft.com/en-us/azure/machine-learning/machine-learning-consume
 
 Steps
 --------
-Step 1:  **Setup an experiment in Azure ML and deploy it as a Web Service**
+####1. Setup an experiment in Azure ML and deploy it as a Web Service
 Login to Azure ML Studio and create the following experiment:
+![R Script experiment](assets/Azure_ML_Experiment.png?raw=true)
 
 This example code uses the following R Script experiment to demonstate how a job in AML is executed.
+![R Script ](assets/R_Script.png?raw=true)
 
-![R Script experiment](assets/Azure_ML_Experiment.png?raw=true)
+
 **What is going on??**
 By connecting the sample 'Movie Rating' to the dataset1 port of the R script module indicates the input file follows the same schema as the 'Moving Rating' dataset.  Web Services modules are connected to the input and output port of the R script module such that this experiment can published as a Web Service.  As mentioned before, the input data must be provided as a file from a cloud storage, hence the Web Service input expects the storage connection string.  The R script simply outputs the movie list in descending rating orders and forward it to the Web Service output module.  Once this experiment is setup and ran, you can use the 'Visualise' action (by right clicking the output port of the R script module) to view the results by using 'Movie Rating' as the input dataset.
 
 >> Note: Creating a working experiment in AML Studio is as straight-forward as it seems, so if you already have an AML web service that you want to connect to, then you are not required to setup the above experiment and skip to Step 3.
 
-![R Script ](assets/R_Script.png?raw=true)
+Finally, click the **Deploy as Web Service** action in the bottom task bar to deploy the web service
 
-Click the **Deploy as Web Service** action to deploy
-
+####2. Setup Azure cloud storage account
 Step 2: Create an Azure Blob Storage account for storing the data files.  Alternatively, create a new container to keep these separate from your other blob data under the same account.
 
+####3. Update resource properties in Java client
 Step 3: Once the experiment is published as a web service, update the following properties in *resources/azureML.properties* with your experiment and storage account details:
  - API URL
  - API key
@@ -63,7 +65,7 @@ Step 3: Once the experiment is published as a web service, update the following 
 **Check the REST request JSON string matches the format provided in the properties file**
 Go to BES Web Service page for your published experiment and look for **jobs** action section.  Check the expected JSON string matches the format given in *resources/azureML.properties* file (property azure.ml.bes.submitJobRequest.json).
 
-Step 4:  Execute MyApp.java to run AML job:
+####4. Run
 ```
 Upload input dataset ....
 Submit job to Azure ML ....
